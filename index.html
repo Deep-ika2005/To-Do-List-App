@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✨ TaskMaster Pro - Your Ultimate Todo Companion</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✅</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Custom animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes pulse-rainbow {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 0.8; }
+        }
+
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .animate-fadeInUp {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .animate-slideInLeft {
+            animation: slideInLeft 0.8s ease-out forwards;
+        }
+
+        .animate-slideInRight {
+            animation: slideInRight 0.8s ease-out forwards;
+        }
+
+        .animate-scaleIn {
+            animation: scaleIn 0.6s ease-out forwards;
+        }
+
+        .animate-gradient {
+            background-size: 400% 400%;
+            animation: gradient 8s ease infinite;
+        }
+
+        .animate-pulse-rainbow {
+            animation: pulse-rainbow 3s ease-in-out infinite;
+        }
+
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .btn-glow {
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-glow:hover {
+            box-shadow: 0 0 30px rgba(102, 126, 234, 0.6);
+        }
+
+        /* Feature cards hover effect */
+        .feature-card {
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px) scale(1.02);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 text-white overflow-x-hidden">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass-effect transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center space-x-3">
+                    <div class="text-3xl animate-bounce">✅</div>
+                    <span class="text-2xl font-bold text-gradient">TaskMaster Pro</span>
+                </div>
+                
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" class="hover:text-purple-300 transition-colors duration-300 font-medium">Home</a>
+                    <a href="#features" class="hover:text-purple-300 transition-colors duration-300 font-medium">Features</a>
+                    <a href="#about" class="hover:text-purple-300 transition-colors duration-300 font-medium">About</a>
+                    <a href="#contact" class="hover:text-purple-300 transition-colors duration-300 font-medium">Contact</a>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <a href="app.html" class="px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full font-semibold hover:scale-105 transition-all duration-300 btn-glow">
+                        🚀 Launch App
+                    </a>
+                    <button class="md:hidden text-white" id="mobileMenuBtn">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="md:hidden hidden" id="mobileMenu">
+            <div class="px-2 pt-2 pb-3 space-y-1 glass-effect">
+                <a href="#home" class="block px-3 py-2 hover:text-purple-300 transition-colors duration-300">Home</a>
+                <a href="#features" class="block px-3 py-2 hover:text-purple-300 transition-colors duration-300">Features</a>
+                <a href="#about" class="block px-3 py-2 hover:text-purple-300 transition-colors duration-300">About</a>
+                <a href="#contact" class="block px-3 py-2 hover:text-purple-300 transition-colors duration-300">Contact</a>
+                <a href="app.html" class="block px-3 py-2 text-purple-300 font-semibold">🚀 Launch App</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center justify-center relative overflow-hidden">
+        <!-- Animated Background Elements -->
+        <div class="absolute inset-0">
+            <div class="absolute top-20 left-10 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float"></div>
+            <div class="absolute top-40 right-10 w-72 h-72 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float" style="animation-delay: 2s;"></div>
+            <div class="absolute -bottom-8 left-20 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float" style="animation-delay: 4s;"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <div class="animate-fadeInUp">
+                <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+                    Master Your
+                    <span class="text-gradient animate-gradient">Productivity</span>
+                </h1>
+                <p class="text-xl md:text-2xl mb-8 text-gray-300 max-w-3xl mx-auto leading-relaxed">
+                    The ultimate todo list application that transforms how you organize, prioritize, 
+                    and accomplish your daily tasks with style and efficiency.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+                    <a href="app.html" class="px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full font-semibold text-lg hover:scale-105 transition-all duration-300 btn-glow">
+                        ✨ Start Organizing
+                    </a>
+                    <a href="#features" class="px-8 py-4 border-2 border-purple-400 rounded-full font-semibold text-lg hover:bg-purple-400 hover:text-white transition-all duration-300">
+                        📋 See Features
+                    </a>
+                </div>
+
+                <!-- Stats -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
+                    <div class="text-center animate-scaleIn" style="animation-delay: 0.2s;">
+                        <div class="text-3xl md:text-4xl font-bold text-purple-400" data-count="10000">0</div>
+                        <div class="text-gray-400">Tasks Completed</div>
+                    </div>
+                    <div class="text-center animate-scaleIn" style="animation-delay: 0.4s;">
+                        <div class="text-3xl md:text-4xl font-bold text-pink-400" data-count="5000">0</div>
+                        <div class="text-gray-400">Happy Users</div>
+                    </div>
+                    <div class="text-center animate-scaleIn" style="animation-delay: 0.6s;">
+                        <div class="text-3xl md:text-4xl font-bold text-blue-400" data-count="24">0</div>
+                        <div class="text-gray-400">Hours Saved Daily</div>
+                    </div>
+                    <div class="text-center animate-scaleIn" style="animation-delay: 0.8s;">
+                        <div class="text-3xl md:text-4xl font-bold text-green-400" data-count="99">0</div>
+                        <div class="text-gray-400">Satisfaction Rate %</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <div class="w-6 h-10 border-2 border-white rounded-full flex justify-center">
+                <div class="w-1 h-3 bg-white rounded-full mt-2 animate-pulse"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">
+                    Powerful <span class="text-gradient">Features</span>
+                </h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    Everything you need to stay organized and productive in one beautiful application
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="feature-card glass-effect rounded-2xl p-8">
+                    <div class="text-5xl mb-4">📝</div>
+                    <h3 class="text-2xl font-bold mb-4">Smart Task Management</h3>
+                    <p class="text-gray-300">
+                        Create, edit, and organize your tasks with intuitive drag-and-drop functionality 
+                        and smart categorization.
+                    </p>
+                </div>
+
+                <div class="feature-card glass-effect rounded-2xl p-8">
+                    <div class="text-5xl mb-4">🎯</div>
+                    <h3 class="text-2xl font-bold mb-4">Priority System</h3>
+                    <p class="text-gray-300">
+                        Set priorities for your tasks with color-coded labels and never miss 
+                        important deadlines again.
+                    </p>
+                </div>
+
+                <div class="feature-card glass-effect rounded-2xl p-8">
+                    <div class="text-5xl mb-4">📊</div>
+                    <h3 class="text-2xl font-bold mb-4">Progress Tracking</h3>
+                    <p class="text-gray-300">
+                        Visual progress bars and statistics help you track your productivity 
+                        and celebrate achievements.
+                    </p>
+                </div>
+
+                <div class="feature-card glass-effect rounded-2xl p-8">
+                    <div class="text-5xl mb-4">🏷️</div>
+                    <h3 class="text-2xl font-bold mb-4">Categories & Tags</h3>
+                    <p class="text-gray-300">
+                        Organize tasks by categories and add custom tags for better 
+                        organization and quick filtering.
+                    </p>
+                </div>
+
+                <div class="feature-card glass-effect rounded-2xl p-8">
+                    <div class="text-5xl mb-4">📱</div>
+                    <h3 class="text-2xl font-bold mb-4">Responsive Design</h3>
+                    <p class="text-gray-300">
+                        Access your tasks anywhere, anytime. Fully responsive design 
+                        works perfectly on all devices.
+                    </p>
+                </div>
+
+                <div class="feature-card glass-effect rounded-2xl p-8">
+                    <div class="text-5xl mb-4">💾</div>
+                    <h3 class="text-2xl font-bold mb-4">Local Storage</h3>
+                    <p class="text-gray-300">
+                        Your data is automatically saved locally. No account required, 
+                        complete privacy and offline access.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-gradient-to-r from-purple-900/50 to-pink-900/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="animate-slideInLeft">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-6">
+                        Why Choose <span class="text-gradient">TaskMaster Pro</span>?
+                    </h2>
+                    <p class="text-xl text-gray-300 mb-8 leading-relaxed">
+                        We believe productivity should be simple, beautiful, and accessible to everyone. 
+                        TaskMaster Pro combines powerful functionality with an intuitive interface 
+                        that makes task management a joy rather than a chore.
+                    </p>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">✓</div>
+                            <span class="text-lg">No registration required</span>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">✓</div>
+                            <span class="text-lg">100% free to use</span>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">✓</div>
+                            <span class="text-lg">Works offline</span>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">✓</div>
+                            <span class="text-lg">Privacy focused</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="animate-slideInRight">
+                    <div class="relative">
+                        <div class="absolute -inset-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-3xl blur-2xl opacity-30 animate-pulse-rainbow"></div>
+                        <div class="relative glass-effect rounded-3xl p-8">
+                            <div class="text-center mb-6">
+                                <div class="text-6xl mb-4">🎯</div>
+                                <h3 class="text-2xl font-bold mb-2">Ready to Get Started?</h3>
+                                <p class="text-gray-300">Join thousands of users who have transformed their productivity</p>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-4 mb-6">
+                                <div class="text-center">
+                                    <div class="text-2xl font-bold text-purple-400">10K+</div>
+                                    <div class="text-sm text-gray-400">Tasks Created</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-2xl font-bold text-pink-400">5K+</div>
+                                    <div class="text-sm text-gray-400">Active Users</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-2xl font-bold text-blue-400">99%</div>
+                                    <div class="text-sm text-gray-400">Uptime</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-2xl font-bold text-green-400">24/7</div>
+                                    <div class="text-sm text-gray-400">Available</div>
+                                </div>
+                            </div>
+                            
+                            <a href="app.html" class="w-full block text-center px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full font-semibold hover:scale-105 transition-all duration-300 btn-glow">
+                                🚀 Launch TaskMaster Pro
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">Get In Touch</h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    Have questions, suggestions, or feedback? We'd love to hear from you!
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12">
+                <div>
+                    <h3 class="text-2xl font-bold mb-6">Contact Information</h3>
+                    <div class="space-y-6">
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center mr-4">
+                                📧
+                            </div>
+                            <div>
+                                <p class="font-semibold">Email</p>
+                                <p class="text-gray-300">hello@taskmasterpro.com</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center mr-4">
+                                💬
+                            </div>
+                            <div>
+                                <p class="font-semibold">Support</p>
+                                <p class="text-gray-300">Available 24/7 via email</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center mr-4">
+                                🌐
+                            </div>
+                            <div>
+                                <p class="font-semibold">Website</p>
+                                <p class="text-gray-300">www.taskmasterpro.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <form class="space-y-6" id="contactForm">
+                        <div>
+                            <input type="text" placeholder="Your Name" required
+                                class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder-gray-400">
+                        </div>
+                        <div>
+                            <input type="email" placeholder="Your Email" required
+                                class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder-gray-400">
+                        </div>
+                        <div>
+                            <input type="text" placeholder="Subject"
+                                class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder-gray-400">
+                        </div>
+                        <div>
+                            <textarea rows="5" placeholder="Your Message" required
+                                class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder-gray-400 resize-none"></textarea>
+                        </div>
+                        <button type="submit"
+                            class="w-full px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg font-semibold hover:scale-105 transition-all duration-300 btn-glow">
+                            📨 Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 bg-gray-900/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="text-3xl">✅</div>
+                        <span class="text-2xl font-bold text-gradient">TaskMaster Pro</span>
+                    </div>
+                    <p class="text-gray-400 mb-4">
+                        The ultimate productivity companion for organizing your life and achieving your goals.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#home" class="hover:text-white transition-colors duration-300">Home</a></li>
+                        <li><a href="#features" class="hover:text-white transition-colors duration-300">Features</a></li>
+                        <li><a href="#about" class="hover:text-white transition-colors duration-300">About</a></li>
+                        <li><a href="app.html" class="hover:text-white transition-colors duration-300">Launch App</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Resources</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="help.html" class="hover:text-white transition-colors duration-300">Help Center</a></li>
+                        <li><a href="privacy.html" class="hover:text-white transition-colors duration-300">Privacy Policy</a></li>
+                        <li><a href="terms.html" class="hover:text-white transition-colors duration-300">Terms of Service</a></li>
+                        <li><a href="#contact" class="hover:text-white transition-colors duration-300">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Stay Updated</h4>
+                    <p class="text-gray-400 mb-4">Get the latest updates and productivity tips</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Your email" 
+                            class="flex-1 px-3 py-2 bg-white/10 border border-white/20 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder-gray-400">
+                        <button class="px-4 py-2 bg-purple-600 rounded-r-lg hover:bg-purple-700 transition-colors duration-300">
+                            📧
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 TaskMaster Pro. All rights reserved. Made with ❤️ for productivity enthusiasts.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" class="fixed bottom-8 right-8 w-12 h-12 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center text-white opacity-0 invisible transition-all duration-300 hover:scale-110 btn-glow">
+        ↑
+    </button>
+
+    <script src="js/landing.js"></script>
+</body>
+</html>
